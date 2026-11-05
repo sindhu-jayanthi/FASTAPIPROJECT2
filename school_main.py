@@ -97,6 +97,20 @@ def update_student(student_id:int, Data:models.StudentCreate, db:Session=Depends
         db.rollback()
         raise HTTPException(status_code=400, detail="record not found")
 
+@app.patch("/students/{student_id}")
+def patch_student(student_id:int, Data:models.StudentOut, db:Session=Depends(get_db)):
+    student=db.query(Database_Schemas.Student).get(student_id)
+    if student:
+        updated_student=Data.model_dump(exclude_unset=True)
+        for key, value in updated_student.items():
+            setattr(student, key, value)
+        db.commit()
+    else:
+        db.rollback()
+        raise HTTPException(status_code=404, detail="student not found")
+
+
+
 
 @app.delete("/students/{student_id}")
 def delete_student(student_id: int, db:Session = Depends(get_db)):

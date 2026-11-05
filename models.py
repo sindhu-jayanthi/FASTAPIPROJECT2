@@ -19,12 +19,13 @@ class StudentCreate(BaseModel):
 
 
 class StudentOut(BaseModel):
-    id: int
-    name: str
-    email: str
-    age: int
-    course: CourseOut          # nested: the full course is returned inside the student
-    model_config = ConfigDict(from_attributes=True)
+    #id: int
+    #model_config: ConfigDict | None = None
+    name: str | None = None
+    email: str | None = None
+    age: int | None = None
+    #course: CourseOut | None = None     # nested: the full course is returned inside the student
+    #model_config = ConfigDict(from_attributes=True)
 
 
 class CourseWithStudents(CourseOut):
